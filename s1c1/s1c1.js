@@ -11,34 +11,13 @@ function selectors() {
   intermediates=document.querySelectorAll('div.intermediate');
 }
 
-function hexToDec(hex) {
-  //receives a string len 2 | FF => 255 | 00 => 0
-  hex=hex.split("");
-  hex=hex.map(e=>e.toUpperCase());
-  const nMap=['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'];
-  let dec;
-  dec=nMap.indexOf(hex[0])*16+nMap.indexOf(hex[1]);
+const hexToDec = (hex) => parseInt(hex,16).toString(10);
+const binToDec = (bin) => parseInt(bin,2).toString(10);
+
+function decToBin(dec) {
+  dec=parseInt(dec,10).toString(2);
+  while (dec.length<8) { dec="0"+dec; }
   return dec;
-}
-
-function decToBin(dec) { //converts base-10 number to base-2 str with 8 bits
-  let binArr=[0,0,0,0,0,0,0,0];
-  for (var i=8;i>=0;i--) {
-    if (dec>=Math.pow(2,i)) {
-      binArr[7-i]=1;
-      dec-=Math.pow(2,i);
-    }
-  }
-  return binArr.join("");
-}
-
-function binToDec(bin) { //converts base-2 str with 8 bits to base-10 number
-  let res=0;
-  bin=bin.split("").map(Number);
-  for (var i=0;i<bin.length;i++) {
-    res+=bin[i]*Math.pow(2,(7-i));
-  }
-  return res;
 }
 
 function binTo64(dec) { //converts array of binary strings to b64 with = padding
