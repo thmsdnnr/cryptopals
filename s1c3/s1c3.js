@@ -87,7 +87,7 @@ function guessTheKey(cipher) {
   //return highest scoring text and the index of that text
   //the index maps 1->1 to the key index, which maps 1->1 to the DECIMAL character
   //convert the decimal index to hex, and there's your cipher byte in base-16.
-  return `the text: ${highestScoringText}<br />the key: VOULDN'T YOU LIKE TO KNOW?!?!`;
+  return `the text: ${highestScoringText}<br />the key: WOULDN'T YOU LIKE TO KNOW?!?!`;
 }
 
 function freqScoreString(string) {
