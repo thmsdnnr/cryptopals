@@ -22,23 +22,6 @@ function textToBinary(string) {
   });
 }
 
-function swine(a,b) { //returns Hamming distance between two strings a and b
-  let dist=0;
-  a=textToBinary(a).reduce((a,b)=>a.concat(b));
-  b=textToBinary(b).reduce((a,b)=>a.concat(b));
-  console.log(a,b,a.length,b.length,'swine');
-  //pad the shorter string with zeros until string lengths equal
-  //take the longest string and start comparing bits left to right
-  //if not the same string or i>index of shorter, then distance++
-
-  //TODO if a.length!=b.length
-  for (var i=0;i<a.length;i++) { if (a[i]!==b[i]) { dist+=1; } }
-  //distance equals the number of 1s in a XOR b
-  return dist;
-}
-
-  console.log(swine('this is a tt','wokka wokka!!!'));
-
 function handleInputChange(e) {
   result.innerHTML=repeatXOR(pText.value,encKey.value);
 }
