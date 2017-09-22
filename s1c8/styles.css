@@ -1,0 +1,83 @@
+body {
+  font-family: Helvetica;
+  font-size: 10px;
+  font-weight: 100;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 30px;
+  letter-spacing: 0.1em;
+  padding: 2px;
+}
+
+h2 {
+  font-size: 16px;
+  padding: 2px;
+}
+
+h3 {
+  font-size: 12px;
+  padding: 1px;
+}
+
+p {
+  padding: 0px;
+  margin: 2px;
+}
+
+input {
+  width: 100%;
+  outline-color: gold;
+  padding: 2px;
+  font-size: 12px;
+  font-family: Courier;
+  letter-spacing: 0.1em;
+}
+
+select {
+  font-size: 16px;
+  font-family: Courier;
+  font-weight: 100;
+  letter-spacing: 0.2em;
+}
+
+div.result {
+  font-family: Courier;
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 100;
+  height: auto;
+  border: 2px solid black;
+  word-break: break-all;
+}
+
+div#container {
+  width: 600px;
+  border: 1px solid black;
+  display: block;
+  float: left;
+  height: auto;
+  margin: 10px;
+  padding: 10px;
+}
+
+div#suiteContainer{
+  width: 600px;
+  display: block;
+  float: right;
+  height: auto;
+  margin: 10 40 0 -40;
+  padding: 0px;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  font-size: 14px;
+  font-family: Courier;
+  font-weight: 100;
+  letter-spacing: 0.1em;
+  outline: none;
+}

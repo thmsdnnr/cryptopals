@@ -24,4 +24,5 @@ Cryptopals Challenge Solutions w/Tutorials [https://cryptopals.com/](https://cry
 [X] Set 1, Challenge 7: AES in ECB mode
 [tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/21/cryptopals-set1-challenge-7-aes-in-ecb-mode.html)
 
-[ ] Set 1, Challenge 8: Detect AES in ECB mode
+[X] Set 1, Challenge 8: Detect AES in ECB mode
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/22/cryptopals-set1-challenge-8-detecting-aes-in-ecb-mode.html)
