@@ -133,6 +133,7 @@
   }
 
   function PKCS7(arr,blockSz) { //returns PKCS7 padded array
+    console.log(arr,blockSz);
     if ((!arr||!blockSz)||(!Array.isArray(arr)||!arr.length)) { return null; }
     let padN=blockSz*Math.floor(arr.length/blockSz)+blockSz;
     let fillCharacter=hexPad(parseInt((padN-arr.length),10).toString(16));
@@ -182,6 +183,7 @@
 //-->Encryption and Decryption Main Functions<--
   function aesEncrypt(plainText, key, numBits) {
     if (!plainText||plainText.length%16!==0) {
+      console.log(plainText);
       throw new Error('Block size is not an even multiple of 16.');
     }
     else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }

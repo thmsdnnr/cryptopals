@@ -6,14 +6,18 @@
     let typeOfText=inputType.selectedOptions[0].value; //text, hex, base64
     let I; //converted input to encrypt or decrypt function
     if (typeOfText==='text') { //pad using PKCS7
-      if (act==='encrypt') { I=PKCS7(pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)),bits); }
-      else { I=pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)); }
+      if (act==='encrypt') { I=PKCS7(pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)),16); }
+      else {
+        textHelper.innerHTML='';
+        textHelper.innerHTML='<h3>Sorry, you can\'t decrypt plaintext. Perhaps you meant base-64?.</h3>';
+        return false;
+      }
     }
     else if (typeOfText==='hex') {
       textHelper.innerHTML='';
       if (pT.match(/[0-9a-f]/gi)&&pT.length%2===0) {
-        if (act==='encrypt') { I=PKCS7(hexByTwo(pT),bits); }
-        else { I=pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)); }
+        if (act==='encrypt') { I=PKCS7(hexByTwo(pT),16); }
+        else { I=hexByTwo(pT); }
       }
       else {
         textHelper.innerHTML='<h3>Sorry, that is invalid hexadecimal.<br />Please make sure each character is padded, e.g., 0x0F should be entered as "0F", not "F".</h3>';
@@ -22,7 +26,7 @@
     }
     else { //base-64
       if (pT.match(/^([0-9a-z+/]{4})*(([0-9a-z+/]{2}==)|([0-9a-z+/]{3}=))?$/i)&&pT.length>=16) {
-        if (act==='encrypt') { I=PKCS7(atob(pT).split(","),bits);  }
+        if (act==='encrypt') { I=PKCS7(atob(pT).split(","),16);  }
         else { I=atob(pT).split(","); }
       }
       else {
