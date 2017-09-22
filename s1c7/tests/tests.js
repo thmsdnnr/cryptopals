@@ -1,5 +1,4 @@
 var expect = chai.expect;
-/*
   describe("Encryption and Decryption (16, 24, 32-bit)", () => {
     describe("aesEncrypt", () => {
       it ("returns correct encryption result for a known 16-bit example", () => {
@@ -597,4 +596,3 @@ var expect = chai.expect;
       });
     });
   });
-*/
