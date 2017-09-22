@@ -21,6 +21,7 @@ Cryptopals Challenge Solutions w/Tutorials [https://cryptopals.com/](https://cry
 [X] Set 1, Challenge 6: Break repeating-key XOR
 [tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/16/cryptopals-set1-challenge-6-break-repeating-key-XOR.html)
 
-[ ] Set 1, Challenge 7: AES in ECB mode
+[X] Set 1, Challenge 7: AES in ECB mode
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/21/cryptopals-set1-challenge-7-aes-in-ecb-mode.html)
 
 [ ] Set 1, Challenge 8: Detect AES in ECB mode
