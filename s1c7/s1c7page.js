@@ -26,8 +26,8 @@
     }
     else { //base-64
       if (pT.match(/^([0-9a-z+/]{4})*(([0-9a-z+/]{2}==)|([0-9a-z+/]{3}=))?$/i)&&pT.length>=16) {
-        if (act==='encrypt') { I=PKCS7(atob(pT).split(","),16);  }
-        else { I=atob(pT).split(","); }
+        if (act==='encrypt') { I=PKCS7(hexByTwo(b64ToHex(pT)),16); }
+        else { I=hexByTwo(b64ToHex(pT)); }
       }
       else {
         textHelper.innerHTML='<h3>Sorry, that is invalid base64. Try again!</h3>';
@@ -41,15 +41,15 @@
     //encrypt or decrypt
     let Z, dataText;
     if (act==='encrypt') {
-      Z=aesEncrypt(I,key,bits);
+      Z=aesEncryptECB(I,key,bits);
       dataText=`<b>${act} results in hex:</b><br />${Z.join("").toUpperCase()}<br />
-      <b>base64:</b><br />${btoa(Z)}`;
+      <b>base64:</b><br />${calcB64(Z.join(""))}`;
     }
     else {
-      Z=aesDecrypt(I,key,bits);
+      Z=aesDecryptECB(I,key,bits);
       let readable=Z.map(e=>String.fromCharCode(parseInt(e,16).toString(10))).join("");
       dataText=`<b>${act} results in hex:</b><br />${Z.join("").toUpperCase()}<br />
-      <b>base64:</b><br />${btoa(Z)}<br />
+      <b>base64:</b><br />${calcB64(Z.join(""))}<br />
       <b>ASCII:</b><br />${readable}`;
     }
     //display the data

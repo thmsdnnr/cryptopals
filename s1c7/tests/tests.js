@@ -1,47 +1,47 @@
 var expect = chai.expect;
   describe("Encryption and Decryption (16, 24, 32-bit)", () => {
-    describe("aesEncrypt", () => {
+    describe("aesEncryptECB", () => {
       it ("returns correct encryption result for a known 16-bit example", () => {
         var pT='Two One Nine Two Hello Kitten I Am Your Father';
         var plain=PKCS7(pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)),16);
         var key=txtToHex('YELLOW SUBMARINE');
-        var res=aesEncrypt(plain,key,16).join("");
+        var res=aesEncryptECB(plain,key,16).join("");
         expect(res).to.equal('33a3478cf32a270eeab4d529fb855f9acfc81ffac1ea0363df426ff24b74804957ececa9ffa3821a00591d2310977c06');
       });
       it ("returns correct encryption result for a known 24-bit example", () => {
         var pT='Two One Nine Two Hello Kitten I Am Your Father';
         var plain=PKCS7(pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)),16);
         var key=txtToHex('YELLOW SUBMARINESSSSSSSS');
-        var res=aesEncrypt(plain,key,24).join("");
+        var res=aesEncryptECB(plain,key,24).join("");
         expect(res).to.equal('d3e3fb926bc3d0c4857687e12ca07c4548093dbf0d22450b366da3cc07f4406758f472c08902937d1d7a5c467a7c25c3');
       });
       it ("returns correct encryption result for a known 32-bit example", () => {
         var pT='Two One Nine Two Hello Kitten I Am Your Fatherca';
         var plain=PKCS7(pT.split("").map(e=>parseInt(e.charCodeAt(),10).toString(16)),16);
         var key=txtToHex('catsandkudzuotherplants&animals!');
-        var res=aesEncrypt(plain,key,32).join("");
+        var res=aesEncryptECB(plain,key,32).join("");
         expect(res).to.equal('1ed6616276f41a620c491e219b768f511969196a68d96f12a3bc5bb58afc6718d04394b3ff82de9a9639ca39863fd2bc449665aee5b9d71d16fedf9ed49b9f01');
       });
       it ("does NOT throw error for correct input length but key length===numBytes", () => {
-        expect(()=>aesEncrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],16)).not.to.throw();
+        expect(()=>aesEncryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],16)).not.to.throw();
       });
       it ("throws error for correct input length but key length<numBytes", () => {
-        expect(()=>aesEncrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],16)).to.throw();
+        expect(()=>aesEncryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],16)).to.throw();
       });
       it ("throws error for correct input length but key length>numBytes", () => {
-        expect(()=>aesEncrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],16)).to.throw();
+        expect(()=>aesEncryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],16)).to.throw();
       });
       it ("throws error for correct input length but missing key", () => {
-        expect(()=>aesEncrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])).to.throw();
+        expect(()=>aesEncryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])).to.throw();
       });
       it ("throws error for input of number of bytes%16!==0", () => {
-        expect(()=>aesEncrypt([1,2,3,4,5])).to.throw();
+        expect(()=>aesEncryptECB([1,2,3,4,5])).to.throw();
       });
       it ("throws error for an empty input of number of bytes", () => {
-        expect(aesEncrypt).to.throw();
+        expect(aesEncryptECB).to.throw();
       });
     });
-    describe("aesDecrypt", () => {
+    describe("aesDecryptECB", () => {
       it ("returns correct decryption result for cryptopals example", () => {
         let vI=atob(`CRIwqt4+szDbqkNY+I0qbDe3LQz0wiw0SuxBQtAM5TDdMbjCMD/venUDW9BL
         PEXODbk6a48oMbAY6DDZsuLbc0uR9cp9hQ0QQGATyyCESq2NSsvhx5zKlLtz
@@ -109,44 +109,44 @@ var expect = chai.expect;
         S15AVD2QS1V6fhRimJSVyT6QuGb8tKRsl2N+a2Xze36vgMhw7XK7zh//jC2H`).split("").map(e=>txtToHex(e)).join("");
         vI=hexByTwo(vI);
         var key=txtToHex('YELLOW SUBMARINE');
-        var res=aesDecrypt(vI,key,16).map(e=>hexToTxt(e)).join("");
+        var res=aesDecryptECB(vI,key,16).map(e=>hexToTxt(e)).join("");
         expect(res).to.equal(`I\'m back and I\'m ringin\' the bell \nA rockin\' on the mike while the fly girls yell \nIn ecstasy in the back of me \nWell that\'s my DJ Deshay cuttin\' all them Z\'s \nHittin\' hard and the girlies goin\' crazy \nVanilla\'s on the mike, man I\'m not lazy. \n\nI\'m lettin\' my drug kick in \nIt controls my mouth and I begin \nTo just let it flow, let my concepts go \nMy posse\'s to the side yellin\', Go Vanilla Go! \n\nSmooth \'cause that\'s the way I will be \nAnd if you don\'t give a damn, then \nWhy you starin\' at me \nSo get off \'cause I control the stage \nThere\'s no dissin\' allowed \nI\'m in my own phase \nThe girlies sa y they love me and that is ok \nAnd I can dance better than any kid n\' play \n\nStage 2 -- Yea the one ya\' wanna listen to \nIt\'s off my head so let the beat play through \nSo I can funk it up and make it sound good \n1-2-3 Yo -- Knock on some wood \nFor good luck, I like my rhymes atrocious \nSupercalafragilisticexpialidocious \nI\'m an effect and that you can bet \nI can take a fly girl and make her wet. \n\nI\'m like Samson -- Samson to Delilah \nThere\'s no denyin\', You can try to hang \nBut you\'ll keep tryin\' to get my style \nOver and over, practice makes perfect \nBut not if you\'re a loafer. \n\nYou\'ll get nowhere, no place, no time, no girls \nSoon -- Oh my God, homebody, you probably eat \nSpaghetti with a spoon! Come on and say it! \n\nVIP. Vanilla Ice yep, yep, I\'m comin\' hard like a rhino \nIntoxicating so you stagger like a wino \nSo punks stop trying and girl stop cryin\' \nVanilla Ice is sellin\' and you people are buyin\' \n\'Cause why the freaks are jockin\' like Crazy Glue \nMovin\' and groovin\' trying to sing along \nAll through the ghetto groovin\' this here song \nNow you\'re amazed by the VIP posse. \n\nSteppin\' so hard like a German Nazi \nStartled by the bases hittin\' ground \nThere\'s no trippin\' on mine, I\'m just gettin\' down \nSparkamatic, I\'m hangin\' tight like a fanatic \nYou trapped me once and I thought that \nYou might have it \nSo step down and lend me your ear \n\'89 in my time! You, \'90 is my year. \n\nYou\'re weakenin\' fast, YO! and I can tell it \nYour body\'s gettin\' hot, so, so I can smell it \nSo don\'t be mad and don\'t be sad \n\'Cause the lyrics belong to ICE, You can call me Dad \nYou\'re pitchin\' a fit, so step back and endure \nLet the witch doctor, Ice, do the dance to cure \nSo come up close and don\'t be square \nYou wanna battle me -- Anytime, anywhere \n\nYou thought that I was weak, Boy, you\'re dead wrong \nSo come on, everybody and sing this song \n\nSay -- Play that funky music Say, go white boy, go white boy go \nplay that funky music Go white boy, go white boy, go \nLay down and boogie and play that funky music till you die. \n\nPlay that funky music Come on, Come on, let me hear \nPlay that funky music white boy you say it, say it \nPlay that funky music A little louder now \nPlay that funky music, white boy Come on, Come on, Come on \nPlay that funky music \n\u0004\u0004\u0004\u0004`);
       });
       it ("returns correct decryption result for a known 16-bit example", () => {
         var cipher=hexByTwo('29c3505f571420f6402299b31a02d73a');
         var key=txtToHex('Thats my Kung Fu');
-        var res=aesDecrypt(cipher,key,16).join("");
+        var res=aesDecryptECB(cipher,key,16).join("");
         expect(res).to.equal('54776f204f6e65204e696e652054776f');
       });
       it ("returns correct decryption result for a known 24-bit example", () => {
         var cipher=hexByTwo('d3e3fb926bc3d0c4857687e12ca07c4548093dbf0d22450b366da3cc07f440672b7f144f6df618465c2db23ce631236a');
         var key=txtToHex('YELLOW SUBMARINESSSSSSSS');
-        var res=aesDecrypt(cipher,key,24).join("");
+        var res=aesDecryptECB(cipher,key,24).join("");
         expect(res).to.equal('54776f204f6e65204e696e652054776f2048656c6c6f204b697474656e204920416d20596f7572204661746865724444');
       });
       it ("returns correct decryption result for a known 32-bit example", () => {
         var cipher=hexByTwo('1ed6616276f41a620c491e219b768f511969196a68d96f12a3bc5bb58afc6718d04394b3ff82de9a9639ca39863fd2bc');
         var key=txtToHex('catsandkudzuotherplants&animals!');
-        var res=aesDecrypt(cipher,key,32).join("");
+        var res=aesDecryptECB(cipher,key,32).join("");
         expect(res).to.equal('54776f204f6e65204e696e652054776f2048656c6c6f204b697474656e204920416d20596f7572204661746865726361');
       });
       it ("does NOT throw error for correct input length but key length===numBytes", () => {
-        expect(()=>aesDecrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],16)).not.to.throw();
+        expect(()=>aesDecryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],16)).not.to.throw();
       });
       it ("throws error for correct input length but key length<numBytes", () => {
-        expect(()=>aesDecrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],16)).to.throw();
+        expect(()=>aesDecryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],16)).to.throw();
       });
       it ("throws error for correct input length but key length>numBytes", () => {
-        expect(()=>aesDecrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],16)).to.throw();
+        expect(()=>aesDecryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],16)).to.throw();
       });
       it ("throws error for correct input length but missing key", () => {
-        expect(()=>aesDecrypt([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])).to.throw();
+        expect(()=>aesDecryptECB([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])).to.throw();
       });
       it ("throws error for input of number of bytes%16!==0", () => {
-        expect(()=>aesDecrypt([1,2,3,4,5])).to.throw();
+        expect(()=>aesDecryptECB([1,2,3,4,5])).to.throw();
       });
       it ("throws error for an empty input of number of bytes", () => {
-        expect(aesEncrypt).to.throw();
+        expect(aesEncryptECB).to.throw();
       });
     });
   });
