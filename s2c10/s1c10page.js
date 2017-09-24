@@ -43,17 +43,14 @@
     if (!initV.length) {
       ivHelper.innerHTML='<h3>No init vector specified. Defaulting to empty vector (16 x 0x00).</h3>'
       initV=hexByTwo('00000000000000000000000000000000');
-      console.log(initV);
     }
     else if (initV.length!==32||!initV.match(/[0-9a-f]/gi)) {
-      console.log('match');
       ivHelper.innerHTML='<h3>Invalid vector.<br />Must be 16 bits, hexadecimal [0-9a-z] characters only, in padded (e.g., 0x2 => 020) form. Try again!</h3>'
       return false;
     }
     else { initV=hexByTwo(initV); }
     //encrypt or decrypt
     let Z, dataText;
-    console.log(I, key, initV);
     if (act==='encrypt') {
       Z=aesEncryptCBC(I,key,initV,bits);
       dataText=`<b>${act} results in hex:</b><br />${Z.join("").toUpperCase()}<br />
