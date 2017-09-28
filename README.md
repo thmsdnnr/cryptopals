@@ -33,11 +33,14 @@ Cryptopals Challenge Solutions w/Tutorials [https://cryptopals.com/](https://cry
 [X] Set 2, Challenge 10: Implement CBC mode
 [tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/24/cryptopals-set2-challenge-10-implement-cipher-block-chaining.html)
 
-[ ] Set 2, Challenge 11: An ECB/CBC detection oracle
+[X] Set 2, Challenge 11: An ECB/CBC detection oracle
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/24/cryptopals-set2-challenge-11-an-aes-ecb-cbc-detection-oracle.html)
 
-[ ] Set 2, Challenge 12: Byte-at-a-time ECB decryption (Simple)
+[X] Set 2, Challenge 12: Byte-at-a-time ECB decryption (Simple)
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/26/cryptopals-set2-challenge-12-byte-at-a-time-ecb-decryption.html)
 
-[ ] Set 2, Challenge 13: ECB cut-and-paste
+[X] Set 2, Challenge 13: ECB cut-and-paste
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/27/cryptopals-set2-challenge-13-ecb-cut-and-paste.html)
 
 [ ] Set 2, Challenge 14: Byte-at-a-time ECB decryption (Harder)
 
