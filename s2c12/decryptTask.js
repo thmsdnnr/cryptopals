@@ -420,10 +420,7 @@ let smartIter=`32,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,1
  236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255`.split(",");
 
 function loopThat() {
-  let dispCt=1;
-  let loopCt=0;
   let numBlocks=Math.ceil(thing.length/16)-1;
-  let guessedKey=[];
   let prevBlockGuessed=[];
   let jStopIdx=(numBlocks+1)*16-thing.length;
   for (var i=numBlocks*16;i>=0;i-=16) {
