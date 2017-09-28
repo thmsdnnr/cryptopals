@@ -1,0 +1,49 @@
+body {
+  background-color: #DFDFDF
+  padding: 10px;
+}
+
+h1, h2, h3 {
+  font-family: Helvetica;
+  font-weight: 100;
+  font-size: 30px;
+  padding: 2px;
+  display: inline;
+  width: auto;
+  white-space: nowrap;
+}
+
+h2 {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 12px;
+  padding: 1px;
+}
+
+a {
+  color: rgb(42, 122, 226);
+}
+
+div#result {
+  background-color: #DDDDDD;
+  color: #636A6D;
+  font-family: Courier;
+  width: 430px;
+  height: 430px;
+  padding: 0px;
+  font-size: 16px;
+  height: auto;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+div#container {
+  width: 430px;
+  border: 1px solid black;
+  display: block;
+  height: auto;
+  padding: 0px;
+  margin: 10px auto;
+}
