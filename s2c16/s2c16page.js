@@ -28,8 +28,6 @@ let theReplacements='%3Badmin%3Dtrue'.split("").map(e=>parseInt(e.charCodeAt(),1
 for (var i=0;i<theReplacements.length;i++) { e[32+i]=hexXOR(e[32+i],theReplacements[i]); }
 let D=randomDecrypt(e);
 
-console.log(`${D}\n${containsAd(D)}`);
-
 window.onload = function () {
   document.querySelector('div#result').innerHTML=`
     <p><b>prior to twiddling:</b>${dPrior}</p>
