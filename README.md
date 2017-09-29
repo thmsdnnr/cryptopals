@@ -42,8 +42,27 @@ Cryptopals Challenge Solutions w/Tutorials [https://cryptopals.com/](https://cry
 [X] Set 2, Challenge 13: ECB cut-and-paste
 [tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/27/cryptopals-set2-challenge-13-ecb-cut-and-paste.html)
 
-[ ] Set 2, Challenge 14: Byte-at-a-time ECB decryption (Harder)
+[X] Set 2, Challenge 14: Byte-at-a-time ECB decryption (Harder)
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/28/cryptopals-set2-challenge-14-ecb-byte-at-a-time-(harder).html)
 
-[ ] Set 2, Challenge 15: PKCS#7 padding validation
+[X] Set 2, Challenge 15: PKCS#7 padding validation
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/28/cryptopals-set2-challenge-15-pkcs7-padding-validation.html)
 
-[ ] Set 2, Challenge 16: CBC bitflipping attacks
+[X] Set 2, Challenge 16: CBC bitflipping attacks
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/29/cryptopals-set2-challenge-16-cbc-bitflipping-attacks.html)
+
+[ ] Set 3, Challenge 17: The CBC padding oracle
+
+[ ] Set 3, Challenge 18: Implement CTR, the stream cipher mode
+
+[ ] Set 3, Challenge 19: Break fixed-nonce CTR mode using substitutions
+
+[ ] Set 3, Challenge 20: Break fixed-nonce CTR statistically
+
+[ ] Set 3, Challenge 21: Implement the MT19937 Mersenne Twister RNG
+
+[ ] Set 3, Challenge 22: Crack an MT19937 seed
+
+[ ] Set 3, Challenge 23: Clone an MT19937 RNG from its output
+
+[ ] Set 3, Challenge 24: Create the MT19937 stream cipher and break it

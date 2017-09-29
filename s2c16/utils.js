@@ -1,123 +1,65 @@
-// had to post aes.js
 //-->Encryption and Decryption Main Functions<--
-  function aesEncryptECB(plainText, key, numBits) {
-    if (!plainText||plainText.length%16!==0) { throw new Error('Block size is not an even multiple of 16.'); }
-    else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }
-    const numRounds = { '16':9,'24':11,'32':13 };
-    if (!numRounds[numBits]) { return null; }
-    let totalRounds = numRounds[numBits];
-    let expKey=generateExpandedKey(key,numBits);
-    let currentState=[];
+function aesEncryptCBC(plainText, key, IV, numBits) {
+  if (!plainText||plainText.length%16!==0) { throw new Error('Block size is not an even multiple of 16.'); }
+  else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }
+  else if (!IV) { throw new Error(`No initialization vector provided.`); }
+  const numRounds = { '16':9,'24':11,'32':13 };
+  if (!numRounds[numBits]) { return null; }
+  let totalRounds = numRounds[numBits];
+  let expKey=generateExpandedKey(key,numBits);
+  let currentState=[];
     for (var i=0;i<plainText.length;i+=16) { //block feeder
-      let curKey=expKey.slice(0,16);
       let cur=plainText.slice(i,i+16);
-      cur=addRoundKey(cur,curKey);
+      if (i===0) { cur=addRoundKey(cur, IV); }
+      else { cur=addRoundKey(cur, currentState[(i/16)-1]); }
       currentState.push(processBlock(cur));
     }
-      function processBlock(block) {
-        let curKey=expKey.slice(0,16);
-        for (var i=0;i<totalRounds+1;i++) {
-          curKey=expKey.slice(i*16+16,i*16+2*16);
-          if (i<totalRounds) {  block=addRoundKey(mixColumns(sRow(bSub(block,true),true),true),curKey); }
-          else {  block=addRoundKey(mToBytes(sRow(bSub(block,true),true)),curKey);  }
-        }
-        return block;
+    function processBlock(block) {
+      let curKey=expKey.slice(0,16);
+      block=addRoundKey(block,curKey);
+      for (var i=0;i<totalRounds+1;i++) {
+        curKey=expKey.slice(i*16+16,i*16+2*16);
+        if (i<totalRounds) { block=addRoundKey(mixColumns(sRow(bSub(block,true),true),true),curKey); }
+        else { block=addRoundKey(mToBytes(sRow(bSub(block,true),true)),curKey); }
       }
+      return block;
+    }
     return flattenArray(currentState).map(e=>hexPad(e));
   }
 
-  function aesDecryptECB(cipherText, key, numBits) {
-    if (!cipherText||cipherText.length%16!==0) { throw new Error('Block size is not an even multiple of 16.'); }
-    else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }
-    const numRounds = { '16':9,'24':11,'32':13 };
-    if (!numRounds[numBits]) { return null; }
-    let totalRounds = numRounds[numBits];
-    let expKey=generateExpandedKey(key,numBits);
-    let currentState=[];
-    for (var i=0;i<cipherText.length;i+=16) {
-      let curKey=expKey.slice(expKey.length-16);
-      let cur=cipherText.slice(i,i+16);
-      cur=bSub(mToBytes(sRow(addRoundKey(cur,curKey),false)),false);
-      currentState.push(processBlock(cur));
+function aesDecryptCBC(cipherText, key, IV, numBits) {
+  if (!cipherText||cipherText.length%16!==0) { throw new Error('Block size is not an even multiple of 16.'); }
+  else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }
+  else if (!IV) { throw new Error(`No initialization vector provided.`); }
+  const numRounds = { '16':9,'24':11,'32':13 };
+  if (!numRounds[numBits]) { return null; }
+  let totalRounds = numRounds[numBits];
+  let expKey=generateExpandedKey(key,numBits);
+  let currentState=[];
+  for (var i=0;i<cipherText.length;i+=16) {
+    let cur=cipherText.slice(i,i+16);
+    let curKey=expKey.slice(expKey.length-16);
+    cur=bSub(mToBytes(sRow(addRoundKey(cur,curKey),false)),false);
+    cur=processBlock(cur);
+    if (i===0) { cur=addRoundKey(cur, IV); }
+    else {
+      let lastCipherBlock=cipherText.slice(i-16,i);
+      cur=addRoundKey(cur, lastCipherBlock);
     }
-      function processBlock(block) {
-        for (var i=0;i<totalRounds+1;i++) {
-          curKey=expKey.slice(expKey.length-(i*16+16*2),expKey.length-(i*16+16));
-          if (i<totalRounds) {
-            block=bSub(mToBytes(sRow(mixColumns(bytesToM(addRoundKey(block,curKey)),false),false)),false);
-          } else { block=addRoundKey(block,curKey); }
-        }
-        return block;
-      }
-    return flattenArray(currentState).map(e=>hexPad(e));;
+    currentState.push(cur);
   }
-
-  function aesEncryptCBC(plainText, key, IV, numBits) {
-    if (!plainText||plainText.length%16!==0) { throw new Error('Block size is not an even multiple of 16.'); }
-    else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }
-    const numRounds = { '16':9,'24':11,'32':13 };
-    if (!numRounds[numBits]) { return null; }
-    let totalRounds = numRounds[numBits];
-    let expKey=generateExpandedKey(key,numBits);
-    let currentState=[];
-      for (var i=0;i<plainText.length;i+=16) { //block feeder
-        let cur=plainText.slice(i,i+16);
-        if (i===0) { cur=addRoundKey(cur, IV); }
-        else { cur=addRoundKey(cur, currentState[(i/16)-1]); }
-        currentState.push(processBlock(cur));
-      }
-      function processBlock(block) {
-        let curKey=expKey.slice(0,16);
-        block=addRoundKey(block,curKey);
-        for (var i=0;i<totalRounds+1;i++) {
-          curKey=expKey.slice(i*16+16,i*16+2*16);
-          if (i<totalRounds) { block=addRoundKey(mixColumns(sRow(bSub(block,true),true),true),curKey); }
-          else { block=addRoundKey(mToBytes(sRow(bSub(block,true),true)),curKey); }
+    function processBlock(block) {
+      for (var i=0;i<totalRounds+1;i++) {
+        curKey=expKey.slice(expKey.length-(i*16+16*2),expKey.length-(i*16+16));
+        if (i<totalRounds) {
+          block=bSub(mToBytes(sRow(mixColumns(bytesToM(addRoundKey(block,curKey)),false),false)),false);
         }
-        return block;
+        else { block=addRoundKey(block,curKey); }
       }
-      return flattenArray(currentState).map(e=>hexPad(e));
+      return block.map(e=>hexPad(e));
     }
-
-  function aesDecryptCBC(cipherText, key, IV, numBits) {
-    if (!cipherText||cipherText.length%16!==0) { throw new Error('Block size is not an even multiple of 16.'); }
-    else if (!key||key.length!==numBits) { throw new Error(`Key size is not an even multiple of ${numBits}.`); }
-    const numRounds = { '16':9,'24':11,'32':13 };
-    if (!numRounds[numBits]) { return null; }
-    let totalRounds = numRounds[numBits];
-    let expKey=generateExpandedKey(key,numBits);
-    let currentState=[];
-    for (var i=0;i<cipherText.length;i+=16) {
-      let cur=cipherText.slice(i,i+16);
-      let curKey=expKey.slice(expKey.length-16);
-      cur=bSub(mToBytes(sRow(addRoundKey(cur,curKey),false)),false);
-      cur=processBlock(cur);
-      if (i===0) { cur=addRoundKey(cur, IV); }
-      else { cur=addRoundKey(cur, currentState[(i/16)-1]); }
-      currentState.push(cur);
-    }
-      function processBlock(block) {
-        for (var i=0;i<totalRounds+1;i++) {
-          curKey=expKey.slice(expKey.length-(i*16+16*2),expKey.length-(i*16+16));
-          if (i<totalRounds) {
-            block=bSub(mToBytes(sRow(mixColumns(bytesToM(addRoundKey(block,curKey)),false),false)),false);
-          }
-          else { block=addRoundKey(block,curKey); }
-        }
-        return block.map(e=>hexPad(e));
-      }
-      return flattenArray(currentState).map(e=>hexPad(e));
-    }
-
-// had to post aes.js^^
-
-// had to post utils.js
-function randomBytes (num) {
-  if (!num||num<1) { throw new Error ('Must create at least one byte!'); }
-  let res=[];
-  for (var i=0;i<num;i++) { res.push(parseInt(Math.floor(Math.random()*255),10).toString(16)); }
-  return res;
-}
+    return flattenArray(currentState).map(e=>hexPad(e));
+  }
 
 //-->Encrypt/Decrypt Subprocesses<--
   let eT='01 03 05 0F 11 33 55 FF 1A 2E 72 96 A1 F8 13 35 5F E1 38 48 D8 73 95 A4 F7 02 06 0A 1E 22 66 AA E5 34 5C E4 37 59 EB 26 6A BE D9 70 90 AB E6 31 53 F5 04 0C 14 3C 44 CC 4F D1 68 B8 D3 6E B2 CD 4C D4 67 A9 E0 3B 4D D7 62 A6 F1 08 18 28 78 88 83 9E B9 D0 6B BD DC 7F 81 98 B3 CE 49 DB 76 9A B5 C4 57 F9 10 30 50 F0 0B 1D 27 69 BB D6 61 A3 FE 19 2B 7D 87 92 AD EC 2F 71 93 AE E9 20 60 A0 FB 16 3A 4E D2 6D B7 C2 5D E7 32 56 FA 15 3F 41 C3 5E E2 3D 47 C9 40 C0 5B ED 2C 74 9C BF DA 75 9F BA D5 64 AC EF 2A 7E 82 9D BC DF 7A 8E 89 80 9B B6 C1 58 E8 23 65 AF EA 25 6F B1 C8 43 C5 54 FC 1F 21 63 A5 F4 07 09 1B 2D 77 99 B0 CB 46 CA 45 CF 4A DE 79 8B 86 91 A8 E3 3E 42 C6 51 F3 0E 12 36 5A EE 29 7B 8D 8C 8F 8A 85 94 A7 F2 0D 17 39 4B DD 7C 84 97 A2 FD 1C 24 6C B4 C7 52 F6 01';
@@ -163,7 +105,7 @@ function randomBytes (num) {
 
 //-->Padding<--
   function padToN(msg,num,padC) { //pads array msg num bytes with padC hexadecimal character
-    if ((!msg||num<msg.length)||(!Array.isArray(msg))) { return null; }
+    if ((!msg||num<msg.length)||(!Array.isArray(msg)||padC.length!==msg[0].length)) { return null; }
     else { while (msg.length<num) { msg.push(padC); } }
     return msg;
   }
@@ -180,7 +122,7 @@ function randomBytes (num) {
   function chopPKCS7(padArr) { //accepts padded hex array, returns non-padded array
     if (!Array.isArray(padArr)||!padArr.length) { return null; }
     let last=Number(parseInt(padArr[padArr.length-1],16).toString(10));
-    if (last>0&&last<256) {
+    if (last>0&&last<=16) {
       let possibleSlice=padArr.slice(padArr.length-last);
       let lastCh=padArr[padArr.length-1];
       if (last>=padArr.length) { throw new Error('Padding >= array length! Are you sure you wanna do that?'); }
@@ -313,7 +255,7 @@ const hexByTwo = (hex) => hex.split("").map((e,idx)=>idx%2===0?hex.slice(idx,idx
 const addRoundKey = (state,rKey) => state.map((e,idx)=>hexXOR(e,rKey[idx]));
 const bSub = (state,enc) => state.map(e=>byteSub(e,enc));
 const hexPad = (hex) => hex.length===1 ? "0"+hex : hex;
-const b64ToHex = (base64) => atob(base64).split("").map(e=>hexPad(e.charCodeAt().toString(16))).join("");
+const b64ToHex = (base64) => window.atob(base64).split("").map(e=>hexPad(e.charCodeAt().toString(16))).join("");
 
 let b64="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split("");
 function binTo64(dec) { //converts array of binary strings to b64 with = padding
@@ -368,87 +310,3 @@ function calcB64(hStr) {
   arr=binTo64(arr); //3x8 (24-bit) string into 4x6 (24-bit) strings and pad out with two bits
   return arr;
 }
-
-// had to post utils.js^^
-
-const theOracle = (cText) => areRepeats(cText.join(""),16) ? 'ECB' : 'CBC';
-
-let thing=hexByTwo(b64ToHex('Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK'));
-let randomKey=randomBytes(16).map(e=>hexPad(e));
-let randomPrefix=randomBytes(Math.floor(Math.random()*100));
-
-function randomCrypto(pText) {
-  pText=txtToHex(pText).map(e=>hexPad(e));
-  let input=PKCS7(randomPrefix.concat(pText,thing),16);
-  return aesEncryptECB(input,randomKey,16);
-}
-
-function areRepeats(txt,sZ,idx=false) {
-  let blocks=[];
-  for (var i=0;i<txt.length;i+=sZ) { blocks.push(txt.slice(i,i+sZ).join("")); }
-  for (var i=0;i<blocks.length;i++) {
-    let lIdx=blocks.lastIndexOf(blocks[i]);
-    if (i!==lIdx) { return idx ? i : true; }
-  }
-  return false;
-}
-
-function findMatch(toMatch, dict) {
-  for (var i=0;i<Object.keys(dict).length;i++) {
-    if (toMatch===dict[Object.keys(dict)[i]]) { return i; }
-  }
-  return null;
-}
-
-function repeatN(c,N) {
-  let res='';
-  for (var i=0;i<N;i++) { res+=c; }
-  return res;
-}
-
-//32, 97 to 122, 65 to 90, 39, 9 to 13, 40-64, 33-38, 91-96, 1-8, 14-31, 123-255
-let smartIter=`32,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,
- 65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,39,9,10,11,12,13,40,41,42,
- 43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,33,34,35,36,37,38,91,92,93,94,95,96,1,
- 2,3,4,5,6,7,8,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,123,124,125,126,127,128,129,130,131,
- 132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,
- 158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,
- 184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,
- 210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,
- 236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255`.split(",");
-
-function loopThat(padOffset,blockOffset) {
-  let numBlocks=blockOffset+Math.ceil(thing.length/16)-1;
-  let prevBlockGuessed=[];
-  let jStopIdx=(numBlocks+1)*16-thing.length-(blockOffset*16);
-  for (var i=numBlocks*16;i>=blockOffset*16;i-=16) {
-    for (var j=16;j>0;j--) { //letter in the given block we're guessing, 1-16
-      if (i===blockOffset*16&&j<=jStopIdx) { j=0; break; }
-      let oneFewer=repeatN('A',(padOffset+i+j-1));
-      let oneShort=randomCrypto(oneFewer).slice(i,(numBlocks+blockOffset+1)*16).join("");
-      for (var k=0;k<smartIter.length;k++) { //guess all possibilities, smartly
-        let char=String.fromCharCode(smartIter[k]);
-        let str=oneFewer+prevBlockGuessed.join("")+char;
-        postMessage({'type':'intermediate', 'res':str});
-        if (oneShort===randomCrypto(str).slice(i,(numBlocks+blockOffset+1)*16).join("")) {
-          prevBlockGuessed.push(String.fromCharCode(smartIter[k]));
-          break;
-        }
-      }
-    }
-  }
-  postMessage({'type':'final', 'res':prevBlockGuessed.join("")});
-}
-
-onmessage = function(e) {
-  let txt=repeatN('A',32);
-  let res=randomCrypto(txt);
-  while (!areRepeats(res,16)) {
-    txt+='A';
-    res=randomCrypto(txt);
-  }
-  let padOffset=txt.length-32;
-  let blockOffset=areRepeats(res,16,index=true);
-  loopThat(padOffset,blockOffset);
-
-};
