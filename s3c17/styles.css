@@ -1,0 +1,40 @@
+body {
+  background-color: rgba(0, 91, 150, 0.1);
+  padding: 10px;
+}
+
+h1, h2, h3 {
+  font-family: Helvetica;
+  font-weight: 100;
+  font-size: 30px;
+  padding: 2px;
+  display: inline;
+  width: auto;
+  white-space: nowrap;
+}
+
+h2 {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 12px;
+  padding: 1px;
+}
+
+a {
+  color: rgb(42, 122, 226);
+}
+
+div#result {
+  background-color: rgba(179, 205, 224, 0.5);
+  color: #011f4b;
+  font-family: Courier;
+  width: 500px;
+  height: auto;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  margin: 10px auto;
+  word-break: break-all;
+  word-wrap: break-word;
+}
