@@ -1,0 +1,38 @@
+<html>
+<head>
+  <title>cryptopals s3c18</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <script src="utils.js"></script>
+  <script src="s3c18page.js"></script>
+</head>
+<body>
+<span id="header">
+  <h1>AES CTR-mode Encryptor/Decryptor</h1>
+<h3><a href="https://github.com/thmsdnnr/cryptopals/tree/master/s3c18">github repo</a> | <a href="https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/10/03/cryptopals-set3-challenge-18-lets-implement-ctr-stream-cipher.html">tutorial!</a></h3>
+</span>
+<div id="container">
+<p><h2>Input format: <select id="inputType">
+<option value="text">text</option>
+<option value="hex">hexadecimal</option>
+<option value="base64" selected>base-64</option>
+</select></h2>
+</p>
+<input type="text" id="plainText" value="L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ=="><br />
+<div id="textHelper"></div>
+<p><h2>KEY</h2></p>
+<input type="text" id="encKey" value="YELLOW SUBMARINE">
+<p><h2>Nonce</h2>
+<div id="nonceHelper"></div>
+<input type="text" id="nonce" value="0">
+<p><button id="encrypt">Encrypt</button><button id="decrypt">Decrypt</button>
+[bits in key]: <select id="bits">
+<option value="16">16 bits (AES-128)</option>
+<option value="24">24 bits (AES-192)</option>
+<option value="32">32 bits (AES-256)</option>
+</select></p>
+<div id="result"></div>
+<h3>Actual padded string and key:</h3>
+<div id="padInfo" class="result"></div>
+</div>
+</body>
+</html>

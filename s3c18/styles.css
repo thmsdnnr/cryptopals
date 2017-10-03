@@ -1,0 +1,84 @@
+body {
+  background-color: rgba(117, 107, 148, 0.1);
+  padding: 10px;
+}
+
+h1, h2, h3 {
+  font-family: Helvetica;
+  font-weight: 100;
+  font-size: 30px;
+  padding: 2px;
+  display: inline;
+  width: auto;
+  white-space: nowrap;
+}
+
+h2 {
+  font-size: 21px;
+}
+
+h3 {
+  font-size: 12px;
+  padding: 1px;
+}
+
+a {
+  color: rgb(42, 122, 226);
+}
+
+div#result {
+  background-color: rgba(179, 205, 224, 1);
+  color: rgba(1, 31, 75, 1);
+  font-family: Courier;
+  width: 500px;
+  height: auto;
+  padding: 10px 10px 10px 10px;
+  font-size: 14px;
+  margin: 10px auto;
+  word-break: break-all;
+  word-wrap: break-word;
+  box-shadow: 2px 2px 5px #888888;
+}
+
+div#result:hover {
+  color: rgba(1, 31, 75, 1);
+  background-color: rgba(179, 215, 224, 0.8);
+}
+
+input {
+  width: 100%;
+  outline-color: gold;
+  padding: 2px;
+  font-size: 12px;
+  font-family: Courier;
+  letter-spacing: 0.1em;
+}
+
+select {
+  font-size: 16px;
+  font-family: Courier;
+  font-weight: 100;
+  letter-spacing: 0.2em;
+}
+
+div.result {
+  font-family: Courier;
+  width: 90%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 100;
+  height: auto;
+  border: 2px solid black;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
+
+div#container {
+  width: 600px;
+  border: 1px solid black;
+  display: block;
+  float: left;
+  height: auto;
+  margin: 10px;
+  padding: 10px;
+}

@@ -51,9 +51,11 @@ Cryptopals Challenge Solutions w/Tutorials [https://cryptopals.com/](https://cry
 [X] Set 2, Challenge 16: CBC bitflipping attacks
 [tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/09/29/cryptopals-set2-challenge-16-cbc-bitflipping-attacks.html)
 
-[ ] Set 3, Challenge 17: The CBC padding oracle
+[X] Set 3, Challenge 17: The CBC padding oracle
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/10/02/cryptopals-set3-challenge-17-cbc-padding-oracle.html)
 
-[ ] Set 3, Challenge 18: Implement CTR, the stream cipher mode
+[X] Set 3, Challenge 18: Implement CTR, the stream cipher mode
+[tutorial!](https://thmsdnnr.github.io/tutorials/javascript/cryptopals/2017/10/03/cryptopals-set3-challenge-18-lets-implement-ctr-stream-cipher.html)
 
 [ ] Set 3, Challenge 19: Break fixed-nonce CTR mode using substitutions
 
